@@ -2,16 +2,16 @@
 
 import { createContext, useEffect, useState } from 'react';
 
-const themeOptions = ['light', 'dark'] as const;
+export const themeOptions = ['light', 'dark', 'auto'] as const;
 
-type Theme = (typeof themeOptions)[number];
+export type Theme = (typeof themeOptions)[number];
 
 type InitialState = {
 	theme: Theme;
 	changeTheme: (selectedTheme: Theme) => void;
 };
 
-const DEFAULT_THEME = 'light';
+const DEFAULT_THEME = 'auto';
 const initialState: InitialState = {
 	theme: DEFAULT_THEME,
 	changeTheme: () => {},
@@ -19,15 +19,33 @@ const initialState: InitialState = {
 
 export const ThemeContext = createContext(initialState);
 
-export function ThemeContextProvider({ children }: { children: React.ReactNode }) {
+export default function ThemeContextProvider({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	const [theme, setTheme] = useState<Theme>(DEFAULT_THEME);
+
 	useEffect(() => {
+		const systemTheme = window.matchMedia('( prefers-color-scheme: dark )');
+
+		if (theme === 'auto') {
+			systemTheme.matches ? setTheme('dark') : setTheme('light');
+		}
+
+		systemTheme.addEventListener('change', (event) => {
+			setTheme(event.matches ? 'dark' : 'light');
+		});
+
 		if (theme === 'dark') {
 			document.body.classList.add('dark');
-		} else if (theme === 'light') {
+		}
+
+		if (theme === 'light') {
 			document.body.classList.remove('dark');
 		}
 	}, [theme]);
+
 	const value = {
 		theme,
 		changeTheme: (selectedTheme: Theme) => {
@@ -36,5 +54,3 @@ export function ThemeContextProvider({ children }: { children: React.ReactNode }
 	};
 	return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
-
-export default ThemeContextProvider;
