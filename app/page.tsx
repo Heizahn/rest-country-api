@@ -6,13 +6,11 @@ import { Suspense } from 'react';
 export default function Home() {
 	return (
 		<main className='px-4'>
-			<FilterContextProvider>
-				<Filters />
+			<Filters />
 
-				<Suspense fallback={<div>Loading...</div>}>
-					<Countries />
-				</Suspense>
-			</FilterContextProvider>
+			<Suspense fallback={<div>Loading...</div>}>
+				<Countries />
+			</Suspense>
 		</main>
 	);
 }

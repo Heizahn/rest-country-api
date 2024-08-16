@@ -3,7 +3,7 @@ import useFilter from '@/hooks/useFilter';
 import { FaSearch } from 'react-icons/fa';
 
 export default function Filters() {
-	const { changeFilter } = useFilter();
+	const { filter, changeFilter } = useFilter();
 	return (
 		<section className='flex flex-col px-4 gap-8 mt-14 mx-auto md:flex-row md:justify-between md:max-w-[1440px]'>
 			<div className='flex items-center justify-center gap-8 bg-t-white dark:bg-dark-blue py-3 px-6 md:px-9 rounded-lg shadow-md'>

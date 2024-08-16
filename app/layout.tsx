@@ -3,6 +3,7 @@ import { Nunito_Sans } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/header';
 import ThemeContextProvider from '@/contexts/theme-context';
+import FilterContextProvider from '@/contexts/filter-context';
 
 const nunito_sans = Nunito_Sans({ subsets: ['latin'] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
 			<body className={`${nunito_sans.className} bg-bg-light dark:bg-bg-dark`}>
 				<ThemeContextProvider>
 					<Header />
-					{children}
+					<FilterContextProvider>{children}</FilterContextProvider>
 				</ThemeContextProvider>
 			</body>
 		</html>
