@@ -1,3 +1,5 @@
+import Borders from '@/components/borders';
+import Destructuring from '@/components/destructurin';
 import NotFound from '@/components/no-fount';
 import Population from '@/components/population';
 import data from '@/data.json';
@@ -48,7 +50,7 @@ export default function Page({ params }: { params: { code: string } }) {
 									)}
 									{country.subregion && (
 										<p>
-											<strong>Sub Region</strong> {country.subregion}
+											<strong>Sub Region:</strong> {country.subregion}
 										</p>
 									)}
 									{country.capital && (
@@ -65,16 +67,26 @@ export default function Page({ params }: { params: { code: string } }) {
 										</p>
 									)}
 									<p>
-										<strong>Currencies:</strong>{' '}
+										<strong>Currencies:</strong>
+										<Destructuring object={country.currencies} />
 									</p>
 									<p>
-										<strong>Language:</strong>{' '}
+										<strong>Language:</strong>
+										<Destructuring object={country.languages} />
 									</p>
 								</div>
 							</div>
 
-							<div className='flex flex-col gap-2 mt-2'>
-								<strong>Border Countries</strong>
+							<div className='grid grid-cols-1 md:grid-cols-4 gap-2 mt-2'>
+								<h3 className='font-bold'>Border Countries:</h3>
+
+								<div className='col-span-3 flex flex-wrap gap-3'>
+									{country.borders?.length ? (
+										<Borders borders={country.borders} />
+									) : (
+										<span>No border countries</span>
+									)}
+								</div>
 							</div>
 						</article>
 					</div>
